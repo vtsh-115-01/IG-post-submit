@@ -30,10 +30,9 @@ body {
     border-radius: 16px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     width: 100%;
-    min-height: 480px; /* 固定最小高度，避免頁面切換時縮放變動 */
+    min-height: 480px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     overflow: hidden;
 }
 
@@ -42,6 +41,7 @@ body {
     justify-content: center;
     gap: 8px;
     margin-bottom: 24px;
+    flex-shrink: 0;
 }
 
 .step-indicator.hidden {
@@ -64,6 +64,7 @@ body {
     flex: 1;
     display: flex;
     flex-direction: column;
+    position: relative;
 }
 
 .step-page {
@@ -81,6 +82,10 @@ body {
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(4px); }
     to { opacity: 1; transform: translateY(0); }
+}
+
+.page-content {
+    flex: 1;
 }
 
 h1 {
@@ -252,6 +257,7 @@ textarea:focus {
 .btn-group {
     display: flex;
     gap: 12px;
+    flex-shrink: 0;
     margin-top: auto;
 }
 
@@ -264,6 +270,7 @@ button.next-btn, button.prev-btn, button[type="submit"] {
     cursor: pointer;
     border: none;
     transition: all 0.2s;
+    height: 46px; /* 固定正常高度避免拉高 */
 }
 
 .next-btn, button[type="submit"] {
