@@ -8,28 +8,80 @@
 </head>
 <body>
     <div class="container">
-        <h1>📢 班級匿名投稿箱</h1>
-        <p class="subtitle">想靠北、告白、祝人生日快樂？通通傳過來！發佈前小編會先審核喔 👀</p>
-        
+        <!-- 進度條指示 -->
+        <div class="step-indicator">
+            <span class="step-dot active" data-step="1"></span>
+            <span class="step-dot" data-step="2"></span>
+            <span class="step-dot" data-step="3"></span>
+        </div>
+
         <form id="confessionForm">
-            <div class="form-group">
-                <label for="category">選擇投稿類別 📌</label>
-                <select id="category" name="category" required>
-                    <option value="" disabled selected>請選擇分類</option>
-                    <option value="靠北">🔥 靠北</option>
-                    <option value="告白">💖 告白</option>
-                    <option value="生日">🎂 生日祝福</option>
-                    <option value="閒聊">💬 閒聊/日常</option>
-                </select>
+            <!-- 📄 第一頁：同意規則 -->
+            <div class="step-page active" id="page-1">
+                <h1>📋 投稿守則</h1>
+                <p class="subtitle">投遞前請詳閱以下規範，保障大家的安全與快樂</p>
+                
+                <div class="rules-box">
+                    <p>🚫 不可 指名道姓、人身攻擊。</p>
+                    <p>🚫 禁止 散布色情、暴力內容。</p>
+                    <p>⚖️ 言論自由無價 & 法律責任自負，別搞 !</p>
+                    <p>🍡 小編保有最終修改、刪除投稿的權利。</p>
+                </div>
+
+                <label class="checkbox-container">
+                    <input type="checkbox" id="agreeRules">
+                    <span class="checkmark"></span>
+                    我已詳細閱讀並同意上述規則
+                </label>
+
+                <button type="button" class="next-btn" id="toPage2" disabled>下一步 ➔</button>
             </div>
 
-            <div class="form-group">
-                <label for="message">想說的話 ✍️</label>
-                <textarea id="message" name="message" rows="6" placeholder="請輸入你的內容..." required></textarea>
+            <!-- 📁 第二頁：選擇分類 (靠北可透過 JS 輕鬆控制開關) -->
+            <div class="step-page" id="page-2">
+                <h1>📌 選擇分類</h1>
+                <p class="subtitle">你想投哪種類型的內容？</p>
+
+                <div class="category-list">
+                    <!-- 💡 靠北開關：把 disabled 拿掉代表開放，加上 disabled 代表關閉 -->
+                    <button type="button" class="category-btn" data-category="靠北" disabled>
+                        🔥 靠北 <span class="badge closed">目前關閉</span>
+                    </button>
+                    <button type="button" class="category-btn" data-category="告白">
+                        💖 告白
+                    </button>
+                    <button type="button" class="category-btn" data-category="生日">
+                        🎂 生日祝福
+                    </button>
+                    <button type="button" class="category-btn" data-category="閒聊">
+                        💬 閒聊/日常
+                    </button>
+                </div>
+                <input type="hidden" id="category" name="category" required>
+
+                <div class="btn-group">
+                    <button type="button" class="prev-btn" data-target="1">⬅️ 上一步</button>
+                    <button type="button" class="next-btn" id="toPage3" disabled>下一步 ➔</button>
+                </div>
             </div>
 
-            <button type="submit" id="submitBtn">送出投稿 🚀</button>
+            <!-- ✍️ 第三頁：輸入內文（限 50 字內） -->
+            <div class="step-page" id="page-3">
+                <h1>✍️ 想說的話</h1>
+                <p class="subtitle">話言精簡，限制 50 字以內</p>
+
+                <div class="form-group">
+                    <textarea id="message" name="message" rows="5" maxlength="50" placeholder="請輸入你的內容（最多 50 字）..." required></textarea>
+                    <div class="char-counter"><span id="currentChar">0</span> / 50字</div>
+                </div>
+
+                <div class="btn-group">
+                    <button type="button" class="prev-btn" data-target="2">⬅️ 上一步</button>
+                    <button type="submit" id="submitBtn" disabled>送出投稿 🚀</button>
+                </div>
+            </div>
         </form>
+
         <div id="responseMessage" class="hidden"></div>
     </div>
 
