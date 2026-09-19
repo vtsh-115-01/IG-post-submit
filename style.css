@@ -1,93 +1,90 @@
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>班級匿名投稿箱</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- 進度條指示 -->
+        <div class="step-indicator">
+            <span class="step-dot active" data-step="1"></span>
+            <span class="step-dot" data-step="2"></span>
+            <span class="step-dot" data-step="3"></span>
+        </div>
 
-body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    background-color: #f0f2f5;
-    color: #333;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-}
+        <form id="confessionForm">
+            <!-- 📄 第一頁：同意規則 -->
+            <div class="step-page active" id="page-1">
+                <h1>📋 投稿守則</h1>
+                <p class="subtitle">投遞前請詳閱以下規範，保障大家的安全與快樂</p>
+                
+                <div class="rules-box">
+                    <p>🚫 不可 指名道姓、人身攻擊。</p>
+                    <p>🚫 禁止 散布色情、暴力內容。</p>
+                    <p>⚖️ 言論自由無價 & 法律責任自負，別搞 !</p>
+                    <p>🍡 小編保有最終修改、刪除投稿的權利。</p>
+                </div>
 
-.container {
-    background: #ffffff;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 500px;
-    margin: 20px;
-}
+                <label class="checkbox-container">
+                    <input type="checkbox" id="agreeRules">
+                    <span class="checkmark"></span>
+                    我已詳細閱讀並同意上述規則
+                </label>
 
-h1 {
-    font-size: 24px;
-    margin-bottom: 8px;
-    color: #1a1a1a;
-    text-align: center;
-}
+                <button type="button" class="next-btn" id="toPage2" disabled>下一步 ➔</button>
+            </div>
 
-.subtitle {
-    font-size: 14px;
-    color: #666;
-    margin-bottom: 24px;
-    text-align: center;
-}
+            <!-- 📁 第二頁：選擇分類 (靠北可透過 JS 輕鬆控制開關) -->
+            <div class="step-page" id="page-2">
+                <h1>📌 選擇分類</h1>
+                <p class="subtitle">你想投哪種類型的內容？</p>
 
-.form-group {
-    margin-bottom: 20px;
-}
+                <div class="category-list">
+                    <!-- 💡 靠北開關：把 disabled 拿掉代表開放，加上 disabled 代表關閉 -->
+                    <button type="button" class="category-btn" data-category="靠北" disabled>
+                        🔥 靠北 <span class="badge closed">目前關閉</span>
+                    </button>
+                    <button type="button" class="category-btn" data-category="告白">
+                        💖 告白
+                    </button>
+                    <button type="button" class="category-btn" data-category="生日">
+                        🎂 生日祝福
+                    </button>
+                    <button type="button" class="category-btn" data-category="閒聊">
+                        💬 閒聊/日常
+                    </button>
+                </div>
+                <input type="hidden" id="category" name="category" required>
 
-label {
-    display: block;
-    font-weight: 600;
-    margin-bottom: 8px;
-    font-size: 14px;
-}
+                <div class="btn-group">
+                    <button type="button" class="prev-btn" data-target="1">⬅️ 上一步</button>
+                    <button type="button" class="next-btn" id="toPage3" disabled>下一步 ➔</button>
+                </div>
+            </div>
 
-select, textarea {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 14px;
-    font-family: inherit;
-    transition: border-color 0.2s;
-}
+            <!-- ✍️ 第三頁：輸入內文（限 50 字內） -->
+            <div class="step-page" id="page-3">
+                <h1>✍️ 想說的話</h1>
+                <p class="subtitle">話言精簡，限制 50 字以內</p>
 
-select:focus, textarea:focus {
-    outline: none;
-    border-color: #0095f6;
-}
+                <div class="form-group">
+                    <textarea id="message" name="message" rows="5" maxlength="50" placeholder="請輸入你的內容（最多 50 字）..." required></textarea>
+                    <div class="char-counter"><span id="currentChar">0</span> / 50字</div>
+                </div>
 
-button {
-    width: 100%;
-    background-color: #0095f6;
-    color: white;
-    border: none;
-    padding: 12px;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
+                <div class="btn-group">
+                    <button type="button" class="prev-btn" data-target="2">⬅️ 上一步</button>
+                    <button type="submit" id="submitBtn" disabled>送出投稿 🚀</button>
+                </div>
+            </div>
+        </form>
 
-button:hover {
-    background-color: #0077c2;
-}
+        <div id="responseMessage" class="hidden"></div>
+    </div>
 
-.hidden {
-    display: none;
-}
-
-#responseMessage {
-    margin-top: 15px;
-    text-align: center;
-    font-weight: 600;
-    color: #28a745;
-}
+    <script src="script.js"></script>
+</body>
+</html>
