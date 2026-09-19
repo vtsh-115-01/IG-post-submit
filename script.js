@@ -2,7 +2,6 @@ const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwQDYrX333kxKy9TeVtC
 
 let currentStep = 1;
 
-// 提示詞對照表
 const PLACEHOLDERS = {
     '200粉Q&A': '200粉限定Q&A，問個問題吧',
     '靠北': '靠北是門藝術，自己人要自己酸',
@@ -11,12 +10,12 @@ const PLACEHOLDERS = {
     '閒聊': '想聊什麼隨便寫...'
 };
 
+// DOM 元素選取
 const dots = document.querySelectorAll('.step-dot');
 const stepIndicator = document.getElementById('stepIndicator');
 const pages = document.querySelectorAll('.step-page');
 const agreeRules = document.getElementById('agreeRules');
 const toPage2 = document.getElementById('toPage2');
-const categoryBtns = document.querySelectorAll('.category-btn:not(:disabled)');
 const categoryInput = document.getElementById('category');
 const toPage3 = document.getElementById('toPage3');
 const messageTextarea = document.getElementById('message');
@@ -51,18 +50,19 @@ agreeRules.addEventListener('change', () => {
 
 toPage2.addEventListener('click', () => showStep(2));
 
-// 第二頁：選擇分類 (同步更新第三頁提示詞)
-categoryBtns.forEach(btn => {
+// 第二頁：選擇分類 (使用全域按鈕監聽確保抓到所有可選按鈕)
+document.querySelectorAll('.category-btn').forEach(btn => {
+    if (btn.disabled) return;
     btn.addEventListener('click', () => {
-        categoryBtns.forEach(b => b.classList.remove('selected'));
+        document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('selected'));
         btn.classList.add('selected');
         
         const selectedCat = btn.getAttribute('data-category');
         categoryInput.value = selectedCat;
         
-        // 動態更換第三頁 placeholder
+        // 強制更新 placeholder
         if (PLACEHOLDERS[selectedCat]) {
-            messageTextarea.placeholder = PLACEHOLDERS[selectedCat];
+            messageTextarea.setAttribute('placeholder', PLACEHOLDERS[selectedCat]);
         }
 
         toPage3.disabled = false;
