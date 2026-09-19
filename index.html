@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>班級匿名投稿箱</title>
+    <title>115衛道甲班投稿箱</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container-wrapper">
         <div class="container">
-            <!-- 進度條指示 -->
             <div class="step-indicator" id="stepIndicator">
                 <span class="step-dot active" data-step="1"></span>
                 <span class="step-dot" data-step="2"></span>
@@ -18,93 +17,99 @@
             </div>
 
             <form id="confessionForm">
-                <!-- 📄 第一頁：同意規則 -->
                 <div class="step-page active" id="page-1">
-                    <h1>📋 投稿守則</h1>
-                    <p class="subtitle">投遞前請詳閱以下規範，保障大家的安全與快樂</p>
-                    
-                    <div class="rules-box">
-                        <p>🚫 不可 指名道姓、人身攻擊。</p>
-                        <p>🚫 禁止 散布色情、暴力內容。</p>
-                        <p>⚖️ 言論自由無價 & 法律責任自負，別搞 !</p>
-                        <p>🍡 小編保有最終修改、刪除投稿的權利。</p>
+                    <div class="page-content">
+                        <h1>📋 投稿守則</h1>
+                        <p class="subtitle">投遞前請詳閱以下規範，保障大家的安全與快樂</p>
+                        
+                        <div class="rules-box">
+                            <p>🚫 不可 指名道姓、人身攻擊。</p>
+                            <p>🚫 禁止 散布色情、暴力內容。</p>
+                            <p>⚖️ 言論自由無價 & 法律責任自負，別搞 !</p>
+                            <p>🍡 小編保有最終修改、刪除投稿的權利。</p>
+                        </div>
+
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="agreeRules">
+                            <span class="checkmark"></span>
+                            我已詳細閱讀並同意上述規則
+                        </label>
                     </div>
 
-                    <label class="checkbox-container">
-                        <input type="checkbox" id="agreeRules">
-                        <span class="checkmark"></span>
-                        我已詳細閱讀並同意上述規則
-                    </label>
-
-                    <button type="button" class="next-btn" id="toPage2" disabled>下一步 ➔</button>
+                    <div class="btn-group">
+                        <button type="button" class="next-btn" id="toPage2" disabled>下一步</button>
+                    </div>
                 </div>
 
-                <!-- 📁 第二頁：選擇分類 -->
                 <div class="step-page" id="page-2">
-                    <h1>📌 選擇分類</h1>
-                    <p class="subtitle">你想投哪種類型的內容？</p>
+                    <div class="page-content">
+                        <h1>📌 選擇分類</h1>
+                        <p class="subtitle">你想投哪種類型的內容？</p>
 
-                    <div class="category-list">
-                        <button type="button" class="category-btn" data-category="QA">
-                            ❓ 200粉QA
-                        </button>
-                        <button type="button" class="category-btn" data-category="靠北" disabled>
-                            🔥 靠北 <span class="badge closed">目前關閉</span>
-                        </button>
-                        <button type="button" class="category-btn" data-category="告白" disabled>
-                            💖 告白 <span class="badge closed">目前關閉</span>
-                        </button>
-                        <button type="button" class="category-btn" data-category="生日" disabled>
-                            🎂 生日祝福 <span class="badge closed">目前關閉</span>
-                        </button>
+                        <div class="category-list">
+                            <button type="button" class="category-btn" data-category="靠北" disabled>
+                                🔥 靠北 <span class="badge closed">目前關閉</span>
+                            </button>
+                            <button type="button" class="category-btn" data-category="告白">
+                                💖 告白
+                            </button>
+                            <button type="button" class="category-btn" data-category="生日">
+                                🎂 生日祝福
+                            </button>
+                            <button type="button" class="category-btn" data-category="閒聊">
+                                💬 閒聊/日常
+                            </button>
+                        </div>
+                        <input type="hidden" id="category" name="category" required>
                     </div>
-                    <input type="hidden" id="category" name="category" required>
 
                     <div class="btn-group">
-                        <button type="button" class="prev-btn" data-target="1">⬅️ 上一步</button>
-                        <button type="button" class="next-btn" id="toPage3" disabled>下一步 ➔</button>
+                        <button type="button" class="prev-btn" data-target="1">上一步</button>
+                        <button type="button" class="next-btn" id="toPage3" disabled>下一步</button>
                     </div>
                 </div>
-
-                <!-- ✍️ 第三頁：輸入內文（限 50 字內） -->
+                
                 <div class="step-page" id="page-3">
-                    <h1>✍️ 想說的話</h1>
-                    <p class="subtitle">話言精簡，限制 1~50 字以內</p>
+                    <div class="page-content">
+                        <h1>✍️ 想說的話</h1>
+                        <p class="subtitle">話言精簡，限制 1~50 字以內</p>
 
-                    <div class="form-group">
-                        <textarea id="message" name="message" rows="5" maxlength="50" placeholder="請輸入你的內容（1~50 字）..." required></textarea>
-                        <div class="char-counter"><span id="currentChar">0</span> / 50字</div>
+                        <div class="form-group">
+                            <textarea id="message" name="message" rows="5" maxlength="50" placeholder="請輸入你的內容..." required></textarea>
+                            <div class="char-counter"><span id="currentChar">0</span> / 50字</div>
+                        </div>
                     </div>
 
                     <div class="btn-group">
-                        <button type="button" class="prev-btn" data-target="2">⬅️ 上一步</button>
-                        <button type="button" class="next-btn" id="toPage4" disabled>確認內容 ➔</button>
+                        <button type="button" class="prev-btn" data-target="2">上一步</button>
+                        <button type="button" class="next-btn" id="toPage4" disabled>確認內容</button>
                     </div>
                 </div>
 
                 <!-- 🔍 第四頁：確認頁面 -->
                 <div class="step-page" id="page-4">
-                    <h1>👀 確認投稿內容</h1>
-                    <p class="subtitle">確認無誤後即可送出</p>
+                    <div class="page-content">
+                        <h1>👀 確認投稿內容</h1>
+                        <p class="subtitle">確認無誤後即可送出</p>
 
-                    <div class="confirm-box">
-                        <div class="confirm-item">
-                            <span class="confirm-label">📌 選擇分類：</span>
-                            <span class="confirm-value" id="confirmCategory">-</span>
-                        </div>
-                        <div class="confirm-item">
-                            <span class="confirm-label">✍️ 投稿內容：</span>
-                            <div class="confirm-value message-preview" id="confirmMessage">-</div>
+                        <div class="confirm-box">
+                            <div class="confirm-item">
+                                <span class="confirm-label">📌 選擇分類：</span>
+                                <span class="confirm-value" id="confirmCategory">-</span>
+                            </div>
+                            <div class="confirm-item">
+                                <span class="confirm-label">✍️ 投稿內容：</span>
+                                <div class="confirm-value message-preview" id="confirmMessage">-</div>
+                            </div>
                         </div>
                     </div>
 
                     <div class="btn-group">
-                        <button type="button" class="prev-btn" data-target="3">⬅️ 修改內容</button>
-                        <button type="submit" id="submitBtn">確認送出 🚀</button>
+                        <button type="button" class="prev-btn" data-target="3">返回</button>
+                        <button type="submit" id="submitBtn">確認送出🚀</button>
                     </div>
                 </div>
 
-                <!-- 🎉 第五頁：成功頁面 -->
                 <div class="step-page" id="page-5">
                     <div class="success-screen">
                         <div class="success-icon">✨</div>
@@ -112,11 +117,11 @@
                         <p class="subtitle">小編審核後會發到 IG 喔！</p>
                         <div class="back-home-note">感謝你的投遞，祝你有美好的一天 :)</div>
                     </div>
+                    <div></div>
                 </div>
             </form>
         </div>
 
-        <!-- 🦶 底部署名 (置中) -->
         <footer class="footer-credit">
             網頁製作/維護：李育睿<br>
             班帳小編：李育睿 杜威德 柏翰
