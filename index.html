@@ -9,7 +9,7 @@
 <body>
     <div class="container-wrapper">
         <div class="container">
-            <!-- 進度條指示 (4頁 + 成功頁不佔進度點或可隱藏) -->
+            <!-- 進度條指示 -->
             <div class="step-indicator" id="stepIndicator">
                 <span class="step-dot active" data-step="1"></span>
                 <span class="step-dot" data-step="2"></span>
@@ -39,13 +39,12 @@
                     <button type="button" class="next-btn" id="toPage2" disabled>下一步 ➔</button>
                 </div>
 
-                <!-- 📁 第二頁：選擇分類 (靠北可透過移除/加上 disabled 開關) -->
+                <!-- 📁 第二頁：選擇分類 -->
                 <div class="step-page" id="page-2">
                     <h1>📌 選擇分類</h1>
                     <p class="subtitle">你想投哪種類型的內容？</p>
 
                     <div class="category-list">
-                        <!-- 💡 靠北開關：有 disabled 代表關閉，拿掉代表開放 -->
                         <button type="button" class="category-btn" data-category="靠北" disabled>
                             🔥 靠北 <span class="badge closed">目前關閉</span>
                         </button>
@@ -70,10 +69,10 @@
                 <!-- ✍️ 第三頁：輸入內文（限 50 字內） -->
                 <div class="step-page" id="page-3">
                     <h1>✍️ 想說的話</h1>
-                    <p class="subtitle">話言精簡，限制 50 字以內</p>
+                    <p class="subtitle">話言精簡，限制 1~50 字以內</p>
 
                     <div class="form-group">
-                        <textarea id="message" name="message" rows="5" maxlength="50" placeholder="請輸入你的內容（最多 50 字）..." required></textarea>
+                        <textarea id="message" name="message" rows="5" maxlength="50" placeholder="請輸入你的內容（1~50 字）..." required></textarea>
                         <div class="char-counter"><span id="currentChar">0</span> / 50字</div>
                     </div>
 
@@ -105,7 +104,7 @@
                     </div>
                 </div>
 
-                <!-- 🎉 第五頁：成功頁面 (不再回到投稿頁) -->
+                <!-- 🎉 第五頁：成功頁面 -->
                 <div class="step-page" id="page-5">
                     <div class="success-screen">
                         <div class="success-icon">✨</div>
@@ -117,7 +116,7 @@
             </form>
         </div>
 
-        <!-- 🦶 底部署名 -->
+        <!-- 🦶 底部署名 (置中) -->
         <footer class="footer-credit">
             網頁製作/維護：李育睿<br>
             班帳小編：李育睿 杜威德 柏翰
