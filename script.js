@@ -2,7 +2,7 @@ const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwQDYrX333kxKy9TeVtC
 
 let currentStep = 1;
 
-// DOM 元素
+// DOM 元素選取
 const dots = document.querySelectorAll('.step-dot');
 const stepIndicator = document.getElementById('stepIndicator');
 const pages = document.querySelectorAll('.step-page');
@@ -55,16 +55,20 @@ categoryBtns.forEach(btn => {
 
 toPage3.addEventListener('click', () => showStep(3));
 
-// 第三頁：字數限制 50 字
-messageTextarea.addEventListener('input', () => {
-    const len = messageTextarea.value.length;
-    currentCharField.textContent = len;
-    toPage4.disabled = len === 0 || len > 50;
-});
+// 第三頁：字數限制 1~50 字 (修復按鈕啟用判斷 bug)
+function updateCharState() {
+    const len = messageTextarea.value.trim().length;
+    currentCharField.textContent = messageTextarea.value.length;
+    // 必須大於 0 且小於等於 50 才能點擊
+    toPage4.disabled = len === 0 || messageTextarea.value.length > 50;
+}
+
+messageTextarea.addEventListener('input', updateCharState);
 
 // 進入確認頁 (第 4 頁)
 toPage4.addEventListener('click', () => {
-    confirmCategory.textContent = categoryInput.value;
+    if (toPage4.disabled) return;
+    confirmCategory.textContent = categoryInput.value || '未選擇';
     confirmMessage.textContent = messageTextarea.value;
     showStep(4);
 });
@@ -98,7 +102,7 @@ form.addEventListener('submit', async function(e) {
             body: JSON.stringify(formData)
         });
 
-        // 成功後直接切到第 5 頁成功畫面，不回重設投稿頁
+        // 成功後直接切到第 5 頁成功畫面
         showStep(5);
 
     } catch (error) {
