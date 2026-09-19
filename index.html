@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>班級匿名投稿箱</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>📢 班級匿名投稿箱</h1>
+        <p class="subtitle">想靠北、告白、祝人生日快樂？通通傳過來！發佈前小編會先審核喔 👀</p>
+        
+        <form id="confessionForm">
+            <div class="form-group">
+                <label for="category">選擇投稿類別 📌</label>
+                <select id="category" name="category" required>
+                    <option value="" disabled selected>請選擇分類</option>
+                    <option value="靠北">🔥 靠北</option>
+                    <option value="告白">💖 告白</option>
+                    <option value="生日">🎂 生日祝福</option>
+                    <option value="閒聊">💬 閒聊/日常</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="message">想說的話 ✍️</label>
+                <textarea id="message" name="message" rows="6" placeholder="請輸入你的內容..." required></textarea>
+            </div>
+
+            <button type="submit" id="submitBtn">送出投稿 🚀</button>
+        </form>
+        <div id="responseMessage" class="hidden"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
