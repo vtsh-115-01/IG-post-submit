@@ -30,6 +30,10 @@ body {
     border-radius: 16px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     width: 100%;
+    min-height: 480px; /* 固定最小高度，避免頁面切換時縮放變動 */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     overflow: hidden;
 }
 
@@ -56,17 +60,26 @@ body {
     background-color: #0095f6;
 }
 
+#confessionForm {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
 .step-page {
     display: none;
+    flex: 1;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .step-page.active {
-    display: block;
+    display: flex;
     animation: fadeIn 0.3s ease-in-out;
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(5px); }
+    from { opacity: 0; transform: translateY(4px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
@@ -222,7 +235,7 @@ textarea:focus {
 
 .success-screen {
     text-align: center;
-    padding: 20px 0;
+    padding: 40px 0;
 }
 
 .success-icon {
@@ -239,6 +252,7 @@ textarea:focus {
 .btn-group {
     display: flex;
     gap: 12px;
+    margin-top: auto;
 }
 
 button.next-btn, button.prev-btn, button[type="submit"] {
@@ -271,7 +285,9 @@ button.next-btn, button.prev-btn, button[type="submit"] {
     background-color: #d8dadf;
 }
 
+/* 署名置中對齊 */
 .footer-credit {
+    width: 100%;
     text-align: center;
     font-size: 12px;
     color: #666;
