@@ -2,7 +2,15 @@ const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwQDYrX333kxKy9TeVtC
 
 let currentStep = 1;
 
-// DOM 元素選取
+// 提示詞對照表
+const PLACEHOLDERS = {
+    '200粉Q&A': '200粉限定Q&A，問個問題吧',
+    '靠北': '靠北是門藝術，自己人要自己酸',
+    '生日': '同班這麼久，來點祝福',
+    '告白': '趁亂告白，搞不好能成功',
+    '閒聊': '想聊什麼隨便寫...'
+};
+
 const dots = document.querySelectorAll('.step-dot');
 const stepIndicator = document.getElementById('stepIndicator');
 const pages = document.querySelectorAll('.step-page');
@@ -43,23 +51,30 @@ agreeRules.addEventListener('change', () => {
 
 toPage2.addEventListener('click', () => showStep(2));
 
-// 第二頁：選擇分類
+// 第二頁：選擇分類 (同步更新第三頁提示詞)
 categoryBtns.forEach(btn => {
     btn.addEventListener('click', () => {
         categoryBtns.forEach(b => b.classList.remove('selected'));
         btn.classList.add('selected');
-        categoryInput.value = btn.getAttribute('data-category');
+        
+        const selectedCat = btn.getAttribute('data-category');
+        categoryInput.value = selectedCat;
+        
+        // 動態更換第三頁 placeholder
+        if (PLACEHOLDERS[selectedCat]) {
+            messageTextarea.placeholder = PLACEHOLDERS[selectedCat];
+        }
+
         toPage3.disabled = false;
     });
 });
 
 toPage3.addEventListener('click', () => showStep(3));
 
-// 第三頁：字數限制 1~50 字 (修復按鈕啟用判斷 bug)
+// 第三頁：字數限制 1~50 字
 function updateCharState() {
     const len = messageTextarea.value.trim().length;
     currentCharField.textContent = messageTextarea.value.length;
-    // 必須大於 0 且小於等於 50 才能點擊
     toPage4.disabled = len === 0 || messageTextarea.value.length > 50;
 }
 
