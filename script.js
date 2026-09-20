@@ -2,8 +2,8 @@ const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwQDYrX333kxKy9TeVtC
 
 let currentStep = 1;
 
+// 提示詞對照表
 const PLACEHOLDERS = {
-    '200粉Q&A': '200粉限定Q&A，問個問題吧',
     '靠北': '靠北是門藝術，自己人要自己酸',
     '生日': '同班這麼久，來點祝福',
     '告白': '趁亂告白，搞不好能成功',
@@ -25,6 +25,38 @@ const confirmCategory = document.getElementById('confirmCategory');
 const confirmMessage = document.getElementById('confirmMessage');
 const submitBtn = document.getElementById('submitBtn');
 const form = document.getElementById('confessionForm');
+
+// 💡 【新增】初始化檢查每個分類的截止日期
+function checkDeadlines() {
+    const now = new Date();
+    document.querySelectorAll('.category-btn').forEach(btn => {
+        const deadlineStr = btn.getAttribute('data-deadline');
+        const badge = btn.querySelector('.status-badge');
+        
+        if (deadlineStr) {
+            const deadline = new Date(deadlineStr);
+            if (now > deadline) {
+                // 已過期 -> 鎖定並顯示紅標
+                btn.disabled = true;
+                btn.classList.remove('selected');
+                if (badge) {
+                    badge.className = 'badge closed status-badge';
+                    badge.textContent = '不開放';
+                }
+            } else {
+                // 未過期 -> 如果本來不是手動關閉，確保可以點
+                // 註：若你希望保留靠北預設關閉，可讓它維持 disabled
+                if (badge && badge.textContent === '不開放') {
+                    badge.textContent = '';
+                    badge.className = 'badge status-badge';
+                }
+            }
+        }
+    });
+}
+
+// 執行截止檢查
+checkDeadlines();
 
 // 切換頁面函式
 function showStep(step) {
@@ -50,7 +82,7 @@ agreeRules.addEventListener('change', () => {
 
 toPage2.addEventListener('click', () => showStep(2));
 
-// 第二頁：選擇分類 (使用全域按鈕監聽確保抓到所有可選按鈕)
+// 第二頁：選擇分類 (排除 disabled)
 document.querySelectorAll('.category-btn').forEach(btn => {
     if (btn.disabled) return;
     btn.addEventListener('click', () => {
@@ -60,7 +92,7 @@ document.querySelectorAll('.category-btn').forEach(btn => {
         const selectedCat = btn.getAttribute('data-category');
         categoryInput.value = selectedCat;
         
-        // 強制更新 placeholder
+        // 更新 placeholder
         if (PLACEHOLDERS[selectedCat]) {
             messageTextarea.setAttribute('placeholder', PLACEHOLDERS[selectedCat]);
         }
