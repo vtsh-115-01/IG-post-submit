@@ -4,8 +4,8 @@ let currentStep = 1;
 
 const PLACEHOLDERS = {
     '200粉Q&A': '200粉限定Q&A，問個問題吧',
-    '生日': '歲數只是進度條，解鎖人生下一關',
-    '告白': '趁亂告白，搞不好能成功'
+    '告白': '趁亂告白，搞不好能成功',
+    '生日祝福': '歲數只是進度條，解鎖人生下一關'
 };
 
 const dots = document.querySelectorAll('.step-dot');
