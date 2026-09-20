@@ -174,9 +174,14 @@ h1 {
     border-radius: 6px;
 }
 
-.badge.closed {
+.badge.red {
     background-color: #ffebee;
     color: #d32f2f;
+}
+
+.badge.green {
+    background-color: #ebffec;
+    color: #2fd348;
 }
 
 textarea {
