@@ -181,7 +181,12 @@ h1 {
 
 .badge.green {
     background-color: #ebffec;
-    color: #2fd348;
+    color: #2fd32f;
+}
+
+.badge.blue {
+    background-color: #ebebff;
+    color: #322fd3;
 }
 
 textarea {
