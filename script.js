@@ -2,14 +2,12 @@ const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwQDYrX333kxKy9TeVtC
 
 let currentStep = 1;
 
-// 提示詞對照表
 const PLACEHOLDERS = {
     '200粉Q&A': '200粉限定Q&A，問個問題吧',
     '生日': '同班這麼久，來點祝福',
     '告白': '趁亂告白，搞不好能成功'
 };
 
-// DOM 元素選取
 const dots = document.querySelectorAll('.step-dot');
 const stepIndicator = document.getElementById('stepIndicator');
 const pages = document.querySelectorAll('.step-page');
