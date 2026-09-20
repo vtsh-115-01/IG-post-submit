@@ -8,6 +8,7 @@ const PLACEHOLDERS = {
     '生日祝福': '歲數只是進度條，解鎖人生下一關'
 };
 
+// DOM 元素選取
 const dots = document.querySelectorAll('.step-dot');
 const stepIndicator = document.getElementById('stepIndicator');
 const pages = document.querySelectorAll('.step-page');
@@ -23,41 +24,40 @@ const confirmMessage = document.getElementById('confirmMessage');
 const submitBtn = document.getElementById('submitBtn');
 const form = document.getElementById('confessionForm');
 
-// 💡 【新增】初始化檢查每個分類的截止日期
+// 💡 檢查每個分類的截止日期
 function checkDeadlines() {
     const now = new Date();
     document.querySelectorAll('.category-btn').forEach(btn => {
         const deadlineStr = btn.getAttribute('data-deadline');
         const badge = btn.querySelector('.status-badge');
         
+        // 若該按鈕本來就是手動關閉且沒有 deadline，維持原狀
         if (deadlineStr) {
             const deadline = new Date(deadlineStr);
             if (now > deadline) {
-                // 已過期 -> 鎖定並顯示紅標
                 btn.disabled = true;
                 btn.classList.remove('selected');
                 if (badge) {
                     badge.className = 'badge closed status-badge';
                     badge.textContent = '不開放';
                 }
-            } else {
-                // 未過期 -> 如果本來不是手動關閉，確保可以點
-                // 註：若你希望保留靠北預設關閉，可讓它維持 disabled
-                if (badge && badge.textContent === '不開放') {
-                    badge.textContent = '';
-                    badge.className = 'badge status-badge';
-                }
             }
         }
     });
 }
 
-// 執行截止檢查
+// 初始執行一次
 checkDeadlines();
 
 // 切換頁面函式
 function showStep(step) {
     currentStep = step;
+    
+    // 💡 每次進到第二頁時，強制重新檢查一次時間
+    if (step === 2) {
+        checkDeadlines();
+    }
+
     pages.forEach((p, idx) => {
         p.classList.toggle('active', idx + 1 === step);
     });
@@ -79,10 +79,17 @@ agreeRules.addEventListener('change', () => {
 
 toPage2.addEventListener('click', () => showStep(2));
 
-// 第二頁：選擇分類 (排除 disabled)
+// 第二頁：選擇分類 (點擊時再確認一次是否已經過期或被鎖定)
 document.querySelectorAll('.category-btn').forEach(btn => {
-    if (btn.disabled) return;
     btn.addEventListener('click', () => {
+        // 點擊當下再次驗證是否已過期或被 disabled
+        const deadlineStr = btn.getAttribute('data-deadline');
+        if (deadlineStr && new Date() > new Date(deadlineStr)) {
+            checkDeadlines();
+            return;
+        }
+        if (btn.disabled) return;
+
         document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('selected'));
         btn.classList.add('selected');
         
